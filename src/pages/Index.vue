@@ -4,7 +4,7 @@
         icon="clear"
         label="CLEAR DB"
         color="red"
-        @click="resetDB"
+        @click="onBtnClick"
     />
   </q-page>
 </template>
@@ -28,11 +28,9 @@ const LokiIncrementalIndexedDBAdapter = require('lokijs/src/incremental-indexedd
 
 export default defineComponent({
   name: 'PageIndex',
-  async mounted () {
-    await this.createDB()
-  },
+  async mounted () {await this.createDB()},
   methods: {
-    async createDB () {
+    async createDB () { // executes on every page load
       if (!this.db) {
         this.rxStorage = getRxStorageLoki({
           adapter: new LokiIncrementalIndexedDBAdapter()
@@ -66,9 +64,9 @@ export default defineComponent({
       const docs = await this.db.humans.find().exec()
       console.log('after exec', docs.length)
     },
-    async resetDB () {
-      await this.db.humans.remove()
-      await this.createDB()
+    async onBtnClick () { // click the button on second tab
+      await this.db.humans.remove() // remove collection
+      await this.createDB() // 'after exec' will never printed on second tab
     }
   }
 })
