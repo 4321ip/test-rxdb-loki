@@ -28,7 +28,7 @@ const LokiIncrementalIndexedDBAdapter = require('lokijs/src/incremental-indexedd
 
 export default defineComponent({
   name: 'PageIndex',
-  async mounted () {await this.createDB()},
+  async mounted () { await this.createDB() },
   methods: {
     async createDB () { // executes on every page load
       if (!this.db) {
